@@ -7,6 +7,7 @@ class lamp {
     package { "apache2": }
     package { "apache2.2-common": }
     package { "php5": }
+    package { "libapache2-mod-php5": }  # also needed
     package { "libapache2-mod-auth-mysql": }
     package { "php5-mysql": }
     package { "mysql-server": }
@@ -44,6 +45,14 @@ class lamp {
         group => "root",
         mode => 644,
         require => [Package["apache2"], Package["php5"]],
+    }
+
+    file{ "/var/www":
+        ensure => directory,
+        owner => "www-data",
+        group => "www-data",
+        mode => 644,
+        require => [Package["apache2"]]
     }
 
     file { "/var/www/index.php":
