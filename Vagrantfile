@@ -14,6 +14,7 @@ Vagrant.configure("2") do |config|
 
   config.vm.provision :shell, :path => "shell/bootstrap.sh"
   config.vm.provision :puppet  # look in manifests
+  config.vm.provision :shell, :path => "shell/re-drush.sh"
 
   config.vm.network :forwarded_port, host: 8080, guest: 80
   # The url from where the 'config.vm.box' box will be fetched if it
@@ -39,6 +40,7 @@ Vagrant.configure("2") do |config|
   # the path on the guest to mount the folder. And the optional third
   # argument is a set of non-required options.
   # config.vm.synced_folder "../data", "/vagrant_data"
+  config.vm.synced_folder "./drupal", "/drupal_inst"
 
   # Provider-specific configuration so you can fine-tune various
   # backing providers for Vagrant. These expose provider-specific options.
