@@ -85,4 +85,18 @@ class lamp {
         require => [Package["apache2"]],
     }
 
+    file { "/etc/apache2/sites-available/phpmyadmin":
+        notify => Service["apache2"],
+        ensure => link,
+        target => "/etc/phpmyadmin/apache.conf",
+        require => [Package["apache2"], Package["phpmyadmin"]],
+    }
+
+    exec { "enable_phpmyadmin":
+        notify => Service["apache2"],
+        command => "/usr/sbin/a2ensite phpmyadmin",
+        require => [File["/etc/apache2/sites-available/phpmyadmin"]],
+    }
+
+
 }
