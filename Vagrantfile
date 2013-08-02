@@ -15,6 +15,7 @@ Vagrant.configure("2") do |config|
   config.vm.provision :shell, :path => "shell/bootstrap.sh"
   config.vm.provision :puppet  # look in manifests
   config.vm.provision :shell, :path => "shell/re-drush.sh"
+  config.vm.provision :shell, :path => "shell/gstore.sh"
 
   config.vm.network :forwarded_port, host: 8080, guest: 80
   # The url from where the 'config.vm.box' box will be fetched if it
@@ -41,6 +42,13 @@ Vagrant.configure("2") do |config|
   # argument is a set of non-required options.
   # config.vm.synced_folder "../data", "/vagrant_data"
   config.vm.synced_folder "./drupal", "/drupal_inst"
+
+  config.vm.provider :virtualbox do |vb|
+      vb.customize [ "setextradata", :id,
+        "VBoxInternal2/SharedFoldersEnableSymlinksCreate/v-root",
+        "1"
+      ]
+  end
 
   # Provider-specific configuration so you can fine-tune various
   # backing providers for Vagrant. These expose provider-specific options.
